@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#FF5722"
+            android:padding="16dp"
+            android:layout_marginBottom="20dp"
+            android:elevation="4dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Emergency Mesh"
+                android:textSize="24sp"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvConnectionStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="● Offline"
+                android:textColor="#FFCCBC"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <!-- Emergency Buttons Grid -->
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:rowCount="3">
+
+            <!-- Send Message -->
+            <Button
+                android:id="@+id/btnSendMessage"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                android:text="📩\nSend Message"
+                android:textSize="16sp"
+                android:background="@drawable/emergency_button"
+                android:textColor="#FFFFFF" />
+
+            <!-- Send Location -->
+            <Button
+                android:id="@+id/btnSendLocation"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                android:text="📍\nSend Location"
+                android:textSize="16sp"
+                android:background="@drawable/emergency_button"
+                android:textColor="#FFFFFF" />
+
+            <!-- Emergency Contacts -->
+            <Button
+                android:id="@+id/btnEmergencyContacts"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                android:text="🗂\nEmergency Contacts"
+                android:textSize="16sp"
+                android:background="@drawable/emergency_button"
+                android:textColor="#FFFFFF" />
+
+            <!-- Nearby Devices -->
+            <Button
+                android:id="@+id/btnNearbyDevices"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                android:text="📡\nNearby Devices"
+                android:textSize="16sp"
+                android:background="@drawable/emergency_button"
+                android:textColor="#FFFFFF" />
+
+            <!-- Broadcast Alert -->
+            <Button
+                android:id="@+id/btnBroadcastAlert"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                android:text="⚠️\nBroadcast Alert"
+                android:textSize="16sp"
+                android:background="@drawable/alert_button"
+                android:textColor="#FFFFFF" />
+
+            <!-- Profile Setup -->
+            <Button
+                android:id="@+id/btnProfile"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                android:text="👤\nProfile"
+                android:textSize="16sp"
+                android:background="@drawable/emergency_button"
+                android:textColor="#FFFFFF" />
+
+        </GridLayout>
+
+    </LinearLayout>
+</ScrollView>
