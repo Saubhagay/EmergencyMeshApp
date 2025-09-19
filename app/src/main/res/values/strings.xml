@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">EmergencyMeshApp</string>
+    <string name="app_name">Emergency Mesh</string>
+    <string name="app_tagline">Offline Disaster Communication</string>
+
+    <!-- Emergency Messages -->
+    <string name="emergency_template_safe">I am safe. Please don\'t worry.</string>
+    <string name="emergency_template_help">Need immediate help. Emergency situation.</string>
+    <string name="emergency_template_rescue">Stuck in disaster area. Send rescue team.</string>
+
+    <!-- Status Messages -->
+    <string name="bluetooth_enabled">Bluetooth Enabled</string>
+    <string name="bluetooth_disabled">Bluetooth Disabled</string>
+    <string name="mesh_active">Mesh Network Active</string>
+    <string name="mesh_searching">Searching for devices...</string>
 </resources>

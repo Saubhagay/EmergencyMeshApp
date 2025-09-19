@@ -5,11 +5,32 @@
     <!-- Permissions for mesh networking -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.NEARBY_WIFI_DEVICES" />
+
+    <!-- Android 12+ Bluetooth Permissions -->
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_SCAN"
+        tools:targetApi="31" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_CONNECT"
+        tools:targetApi="31" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADVERTISE"
+        tools:targetApi="31" />
+
+    <!-- Nearby Wi-Fi Devices (Android 13+) -->
+    <uses-permission
+        android:name="android.permission.NEARBY_WIFI_DEVICES"
+        android:usesPermissionFlags="neverForLocation"
+        tools:targetApi="33" />
+
+    <!-- Wi-Fi State permissions -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
+    <!-- Permission to initiate phone calls -->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
@@ -22,21 +43,31 @@
         android:theme="@style/Theme.EmergencyMeshApp"
         tools:targetApi="31">
 
+        <!-- Splash Screen as Main Launcher -->
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".SplashActivity"
-            android:exported="true" />
-        <activity android:name=".ProfileSetupActivity" />
-        <activity android:name=".SendMessageActivity" />
-        <activity android:name=".EmergencyContactsActivity" />
-        <activity android:name=".NearbyDevicesActivity" />
+        <!-- Main Activity -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+
+        <!-- Other Activities -->
+        <activity android:name=".ProfileSetupActivity"
+            android:exported="false" />
+        <activity android:name=".SendMessageActivity"
+            android:exported="false" />
+        <activity android:name=".EmergencyContactsActivity"
+            android:exported="false" />
+        <activity android:name=".NearbyDevicesActivity"
+            android:exported="false" />
 
     </application>
 </manifest>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#F5F5F5"
+        android:padding="16dp">
+
+        <!-- Header -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Send Emergency Message"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"
+            android:textColor="#FF5722" />
+
+        <!-- Recipient Phone -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Recipient Phone Number *"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/etRecipientPhone"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Enter phone number or select from contacts"
+            android:inputType="phone"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Message Type -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Message Type"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <RadioGroup
+            android:id="@+id/rgMessageType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <RadioButton
+                android:id="@+id/rbText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Text"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/rbLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location"
+                android:layout_marginStart="20dp" />
+
+            <RadioButton
+                android:id="@+id/rbAlert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Alert"
+                android:layout_marginStart="20dp" />
+
+        </RadioGroup>
+
+        <!-- Message Content -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Message Content *"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/etMessageContent"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:hint="Enter your emergency message..."
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Quick Message Templates -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quick Templates"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="20dp">
+
+            <Button
+                android:id="@+id/btnTemplate1"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="I am safe. Please don't worry."
+                android:textSize="14sp"
+                android:background="@drawable/template_button"
+                android:layout_marginBottom="4dp" />
+
+            <Button
+                android:id="@+id/btnTemplate2"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Need immediate help. Emergency situation."
+                android:textSize="14sp"
+                android:background="@drawable/template_button"
+                android:layout_marginBottom="4dp" />
+
+            <Button
+                android:id="@+id/btnTemplate3"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Stuck in disaster area. Send rescue team."
+                android:textSize="14sp"
+                android:background="@drawable/template_button" />
+
+        </LinearLayout>
+
+        <!-- Send Button -->
+        <Button
+            android:id="@+id/btnSendMessage"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Send Message"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="@drawable/emergency_button"
+            android:textColor="#FFFFFF" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
