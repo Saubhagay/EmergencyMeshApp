@@ -14,28 +14,44 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:background="#FF5722"
             android:padding="16dp"
             android:layout_marginBottom="20dp"
             android:elevation="4dp">
 
-            <TextView
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Emergency Mesh"
-                android:textSize="24sp"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Emergency Mesh"
+                    android:textSize="24sp"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvConnectionStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="● Offline"
+                    android:textColor="#FFCCBC"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/tvConnectionStatus"
-                android:layout_width="wrap_content"
+                android:id="@+id/tvMeshInfo"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="● Offline"
+                android:text="Starting mesh network..."
                 android:textColor="#FFCCBC"
-                android:textSize="14sp" />
+                android:textSize="12sp"
+                android:layout_marginTop="4dp" />
 
         </LinearLayout>
 
@@ -44,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:columnCount="2"
-            android:rowCount="3">
+            android:rowCount="4">
 
             <!-- Send Message -->
             <Button
@@ -54,6 +70,18 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
                 android:text="📩\nSend Message"
+                android:textSize="16sp"
+                android:background="@drawable/emergency_button"
+                android:textColor="#FFFFFF" />
+
+            <!-- Message Inbox -->
+            <Button
+                android:id="@+id/btnMessageInbox"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                android:text="📬\nMessage Inbox"
                 android:textSize="16sp"
                 android:background="@drawable/emergency_button"
                 android:textColor="#FFFFFF" />
@@ -89,7 +117,7 @@
                 android:layout_height="100dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                android:text="📡\nNearby Devices"
+                android:text="📡\nMesh Network"
                 android:textSize="16sp"
                 android:background="@drawable/emergency_button"
                 android:textColor="#FFFFFF" />
@@ -119,6 +147,35 @@
                 android:textColor="#FFFFFF" />
 
         </GridLayout>
+
+        <!-- Instructions Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:padding="16dp"
+            android:layout_marginTop="20dp"
+            android:elevation="2dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="How Emergency Mesh Works"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"
+                android:textColor="#FF5722" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1. Your device automatically connects to nearby Emergency Mesh devices via Bluetooth\n\n2. Messages are sent directly between devices without internet\n\n3. Messages can hop through multiple devices to reach their destination\n\n4. All emergency contacts and messages are stored locally for offline access\n\n5. Check Message Inbox to view received emergency messages"
+                android:textSize="14sp"
+                android:textColor="#666666"
+                android:lineSpacingMultiplier="1.2" />
+
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

@@ -13,11 +13,23 @@ public class SharedPrefsHelper {
 
     private SharedPreferences sharedPrefs;
     private SharedPreferences.Editor editor;
+    private static final String KEY_USER_ROLE = "user_role"; // "emergency" or "saviour"
+
+
+    public void setUserRole(String role) {
+        editor.putString(KEY_USER_ROLE, role);
+        editor.apply();
+    }
+
+    public String getUserRole() {
+        return sharedPrefs.getString(KEY_USER_ROLE, "emergency"); // Default to emergency
+    }
 
     public SharedPrefsHelper(Context context) {
         sharedPrefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         editor = sharedPrefs.edit();
     }
+
 
     public void saveProfile(String name, String phone, String emergencyContact, String bloodGroup) {
         editor.putString(KEY_NAME, name);

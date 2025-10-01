@@ -21,7 +21,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Nearby Devices"
+                android:text="Mesh Network"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="#FF5722" />
@@ -37,14 +37,14 @@
 
         </LinearLayout>
 
-        <!-- Connection Status -->
+        <!-- Bluetooth Status -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:background="#E3F2FD"
             android:padding="12dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
             android:elevation="2dp">
 
             <TextView
@@ -62,6 +62,44 @@
                 android:textColor="#1976D2" />
 
         </LinearLayout>
+
+        <!-- Connection Status -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#E8F5E8"
+            android:padding="12dp"
+            android:layout_marginBottom="8dp"
+            android:elevation="2dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Mesh Status:"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvConnectionStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="● No Connections"
+                android:textColor="#FF9800" />
+
+        </LinearLayout>
+
+        <!-- Connected Devices Count -->
+        <TextView
+            android:id="@+id/tvConnectedDevicesCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Connected Devices: 0"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:padding="8dp"
+            android:background="#FFF3E0"
+            android:layout_marginBottom="16dp" />
 
         <!-- Scanning Progress -->
         <LinearLayout
@@ -117,33 +155,54 @@
             android:textColor="#666666"
             android:visibility="visible" />
 
-        <!-- Action Buttons -->
-        <LinearLayout
+        <!-- Action Buttons Grid -->
+        <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:columnCount="2"
+            android:rowCount="2"
             android:layout_marginTop="16dp">
 
             <Button
                 android:id="@+id/btnMakeDiscoverable"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_weight="1"
+                android:layout_columnWeight="1"
                 android:text="Make Discoverable"
                 android:background="@drawable/emergency_button"
                 android:textColor="#FFFFFF"
-                android:layout_marginEnd="8dp" />
+                android:layout_margin="4dp" />
 
             <Button
                 android:id="@+id/btnRefresh"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_weight="1"
+                android:layout_columnWeight="1"
                 android:text="Refresh"
                 android:background="@drawable/template_button"
-                android:layout_marginStart="8dp" />
+                android:layout_margin="4dp" />
 
-        </LinearLayout>
+            <Button
+                android:id="@+id/btnStartServer"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_columnWeight="1"
+                android:text="Start Server"
+                android:background="@drawable/emergency_button"
+                android:textColor="#FFFFFF"
+                android:layout_margin="4dp" />
+
+            <Button
+                android:id="@+id/btnSendTestMessage"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_columnWeight="1"
+                android:text="Test Message"
+                android:background="@drawable/template_button"
+                android:layout_margin="4dp"
+                android:enabled="false" />
+
+        </GridLayout>
 
     </LinearLayout>
 

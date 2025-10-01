@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="#F5F5F5"
         android:padding="16dp">
@@ -18,14 +18,27 @@
             android:textSize="24sp"
             android:textStyle="bold"
             android:gravity="center"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="16dp"
             android:textColor="#FF5722" />
 
-        <!-- Recipient Phone -->
+        <!-- Connection Status -->
         <TextView
+            android:id="@+id/tvConnectionStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Checking connections..."
+            android:textSize="14sp"
+            android:padding="12dp"
+            android:background="#E8F5E8"
+            android:layout_marginBottom="16dp"
+            android:gravity="center" />
+
+        <!-- Recipient -->
+        <TextView
+            android:id="@+id/tvRecipientLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Recipient Phone Number *"
+            android:text="Recipient Phone Number"
             android:textSize="16sp"
             android:textStyle="bold"
             android:layout_marginBottom="8dp" />
@@ -34,7 +47,7 @@
             android:id="@+id/etRecipientPhone"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Enter phone number or select from contacts"
+            android:hint="Enter phone number (optional for broadcast)"
             android:inputType="phone"
             android:background="@drawable/edit_text_background"
             android:padding="12dp"
@@ -83,7 +96,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Message Content *"
+            android:text="Emergency Message *"
             android:textSize="16sp"
             android:textStyle="bold"
             android:layout_marginBottom="8dp" />
@@ -97,9 +110,9 @@
             android:padding="12dp"
             android:gravity="top"
             android:inputType="textMultiLine"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginBottom="16dp" />
 
-        <!-- Quick Message Templates -->
+        <!-- Quick Templates -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -108,50 +121,43 @@
             android:textStyle="bold"
             android:layout_marginBottom="8dp" />
 
-        <LinearLayout
+        <Button
+            android:id="@+id/btnTemplate1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="20dp">
+            android:layout_height="40dp"
+            android:text="I am safe"
+            android:textSize="14sp"
+            android:background="@drawable/template_button"
+            android:layout_marginBottom="4dp" />
 
-            <Button
-                android:id="@+id/btnTemplate1"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:text="I am safe. Please don't worry."
-                android:textSize="14sp"
-                android:background="@drawable/template_button"
-                android:layout_marginBottom="4dp" />
+        <Button
+            android:id="@+id/btnTemplate2"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Need immediate help"
+            android:textSize="14sp"
+            android:background="@drawable/template_button"
+            android:layout_marginBottom="4dp" />
 
-            <Button
-                android:id="@+id/btnTemplate2"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:text="Need immediate help. Emergency situation."
-                android:textSize="14sp"
-                android:background="@drawable/template_button"
-                android:layout_marginBottom="4dp" />
-
-            <Button
-                android:id="@+id/btnTemplate3"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:text="Stuck in disaster area. Send rescue team."
-                android:textSize="14sp"
-                android:background="@drawable/template_button" />
-
-        </LinearLayout>
+        <Button
+            android:id="@+id/btnTemplate3"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Stuck in disaster area"
+            android:textSize="14sp"
+            android:background="@drawable/template_button"
+            android:layout_marginBottom="20dp" />
 
         <!-- Send Button -->
         <Button
             android:id="@+id/btnSendMessage"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="Send Message"
+            android:text="SEND EMERGENCY MESSAGE"
             android:textSize="18sp"
             android:textStyle="bold"
             android:background="@drawable/emergency_button"
             android:textColor="#FFFFFF" />
 
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

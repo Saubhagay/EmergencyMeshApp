@@ -13,7 +13,7 @@ import com.emergencymesh.app.utils.SharedPrefsHelper;
 public class ProfileSetupActivity extends AppCompatActivity {
 
     private EditText etName, etPhone, etEmergencyContact;
-    private Spinner spinnerBloodGroup;
+    private Spinner spinnerBloodGroup, spinnerRole;
     private Button btnSaveProfile;
     private SharedPrefsHelper prefsHelper;
 
@@ -25,6 +25,7 @@ public class ProfileSetupActivity extends AppCompatActivity {
         prefsHelper = new SharedPrefsHelper(this);
         initViews();
         setupBloodGroupSpinner();
+        setupRoleSpinner();
         loadExistingProfile();
         setupSaveButton();
     }
@@ -34,6 +35,7 @@ public class ProfileSetupActivity extends AppCompatActivity {
         etPhone = findViewById(R.id.etPhone);
         etEmergencyContact = findViewById(R.id.etEmergencyContact);
         spinnerBloodGroup = findViewById(R.id.spinnerBloodGroup);
+        spinnerRole = findViewById(R.id.spinnerRole);
         btnSaveProfile = findViewById(R.id.btnSaveProfile);
     }
 
@@ -42,6 +44,13 @@ public class ProfileSetupActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, bloodGroups);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerBloodGroup.setAdapter(adapter);
+    }
+
+    private void setupRoleSpinner() {
+        String[] roles = {"Emergency (Need Help)", "Saviour (Can Help)"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, roles);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerRole.setAdapter(adapter);
     }
 
     private void loadExistingProfile() {
@@ -54,6 +63,14 @@ public class ProfileSetupActivity extends AppCompatActivity {
             ArrayAdapter adapter = (ArrayAdapter) spinnerBloodGroup.getAdapter();
             int position = adapter.getPosition(bloodGroup);
             spinnerBloodGroup.setSelection(position);
+        }
+
+        // Load existing role
+        String role = prefsHelper.getUserRole();
+        if ("saviour".equals(role)) {
+            spinnerRole.setSelection(1);
+        } else {
+            spinnerRole.setSelection(0); // Default to emergency
         }
     }
 
@@ -81,8 +98,15 @@ public class ProfileSetupActivity extends AppCompatActivity {
             bloodGroup = "";
         }
 
+        // Get selected role
+        String role = spinnerRole.getSelectedItemPosition() == 0 ? "emergency" : "saviour";
+
+        // Save profile with role
         prefsHelper.saveProfile(name, phone, emergencyContact, bloodGroup);
-        Toast.makeText(this, "Profile saved successfully!", Toast.LENGTH_SHORT).show();
+        prefsHelper.setUserRole(role);
+
+        String roleText = "emergency".equals(role) ? "Emergency (will auto-send alert when connected)" : "Saviour (ready to help)";
+        Toast.makeText(this, "Profile saved! Role: " + roleText, Toast.LENGTH_LONG).show();
         finish();
     }
 }

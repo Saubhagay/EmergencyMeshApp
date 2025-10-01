@@ -69,5 +69,9 @@
         <activity android:name=".NearbyDevicesActivity"
             android:exported="false" />
 
+        <!-- NEW: Message Inbox Activity -->
+        <activity android:name=".MessageInboxActivity"
+            android:exported="false" />
+
     </application>
 </manifest>
