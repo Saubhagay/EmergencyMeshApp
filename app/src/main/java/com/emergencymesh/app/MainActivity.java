@@ -45,16 +45,19 @@ public class MainActivity extends AppCompatActivity {
             switch (action) {
                 case BluetoothMeshService.ACTION_MESSAGE_RECEIVED:
                     String msgJson = intent.getStringExtra(BluetoothMeshService.EXTRA_MESSAGE);
+                    int hopCount = intent.getIntExtra(BluetoothMeshService.EXTRA_HOP_COUNT, 0);
                     if (msgJson != null) {
                         Message message = gson.fromJson(msgJson, Message.class);
                         String alertTitle = "MESSAGE RECEIVED";
                         if ("alert".equals(message.getMessageType())) {
-                            alertTitle = "EMERGENCY ALERT";
+                            alertTitle = "🚨 EMERGENCY ALERT";
                         } else if ("location".equals(message.getMessageType())) {
-                            alertTitle = "LOCATION SHARE";
+                            alertTitle = "📍 LOCATION SHARE";
                         }
+
+                        String hopInfo = hopCount > 0 ? " (via " + hopCount + " hop" + (hopCount > 1 ? "s" : "") + ")" : "";
                         Toast.makeText(MainActivity.this,
-                                alertTitle + "\nFrom: " + message.getSenderName(),
+                                alertTitle + hopInfo + "\nFrom: " + message.getSenderName(),
                                 Toast.LENGTH_LONG).show();
                         updateConnectionStatus();
                     }
@@ -70,6 +73,14 @@ public class MainActivity extends AppCompatActivity {
                     String error = intent.getStringExtra(BluetoothMeshService.EXTRA_ERROR);
                     Toast.makeText(MainActivity.this,
                             "Send failed: " + error,
+                            Toast.LENGTH_SHORT).show();
+                    break;
+
+                case BluetoothMeshService.ACTION_MESSAGE_FORWARDED:
+                    int forwardedHops = intent.getIntExtra(BluetoothMeshService.EXTRA_HOP_COUNT, 0);
+                    int deviceCount = intent.getIntExtra("device_count", 0);
+                    Toast.makeText(MainActivity.this,
+                            "📡 Message forwarded to " + deviceCount + " device(s) at hop " + forwardedHops,
                             Toast.LENGTH_SHORT).show();
                     break;
 
@@ -121,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
         tvConnectionStatus.setText("Initializing");
         tvConnectionStatus.setTextColor(getColor(android.R.color.holo_orange_light));
-        tvMeshInfo.setText("Starting emergency mesh...");
+        tvMeshInfo.setText("Starting multi-hop emergency mesh...");
     }
 
     private void setupClickListeners() {
@@ -212,19 +223,21 @@ public class MainActivity extends AppCompatActivity {
 
         List<String> connectedDevices = meshService.getConnectedDevices();
         int deviceCount = connectedDevices.size();
+        int cacheSize = meshService.getMessageCacheSize();
 
         if (!meshService.isBluetoothEnabled()) {
             tvConnectionStatus.setText("Bluetooth Disabled");
             tvConnectionStatus.setTextColor(getColor(android.R.color.holo_red_dark));
             tvMeshInfo.setText("Enable Bluetooth to start");
         } else if (deviceCount > 0) {
-            tvConnectionStatus.setText("Connected");
+            tvConnectionStatus.setText("● Connected");
             tvConnectionStatus.setTextColor(getColor(android.R.color.holo_green_dark));
-            tvMeshInfo.setText(deviceCount + " device(s) connected - Ready for emergencies");
+            tvMeshInfo.setText(deviceCount + " device(s) connected • Multi-hop enabled • " +
+                    cacheSize + " msgs cached");
         } else {
             tvConnectionStatus.setText("Ready");
             tvConnectionStatus.setTextColor(getColor(android.R.color.holo_orange_light));
-            tvMeshInfo.setText("Server running - Waiting for connections");
+            tvMeshInfo.setText("Server running • Multi-hop routing active");
         }
     }
 
@@ -253,11 +266,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        // Register broadcast receiver
+        // Register broadcast receiver with multi-hop actions
         IntentFilter filter = new IntentFilter();
         filter.addAction(BluetoothMeshService.ACTION_MESSAGE_RECEIVED);
         filter.addAction(BluetoothMeshService.ACTION_MESSAGE_SENT);
         filter.addAction(BluetoothMeshService.ACTION_MESSAGE_FAILED);
+        filter.addAction(BluetoothMeshService.ACTION_MESSAGE_FORWARDED);
         filter.addAction(BluetoothMeshService.ACTION_DEVICE_CONNECTED);
         filter.addAction(BluetoothMeshService.ACTION_DEVICE_DISCONNECTED);
         LocalBroadcastManager.getInstance(this).registerReceiver(meshReceiver, filter);
@@ -269,7 +283,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        // Unregister broadcast receiver
         try {
             LocalBroadcastManager.getInstance(this).unregisterReceiver(meshReceiver);
         } catch (Exception e) {
@@ -279,7 +292,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        // Don't cleanup - service persists across activities
         super.onDestroy();
     }
 }

@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.emergencymesh.app.models.Message;
 import com.emergencymesh.app.utils.MessageStorage;
 import com.emergencymesh.app.utils.SharedPrefsHelper;
+import com.emergencymesh.app.utils.MessageCache;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,11 +34,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Emergency Mesh Service with:
- * - Bidirectional messaging
- * - Emergency role support
- * - Auto-send features
- * - Delivery status tracking
+ * Enhanced Emergency Mesh Service with Multi-Hop Routing
  */
 public class BluetoothMeshService {
     private static final String TAG = "EmergencyMesh";
@@ -45,19 +42,21 @@ public class BluetoothMeshService {
     private static final UUID MESH_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     private static final String SERVICE_NAME = "EmergencyMesh";
 
-    // Broadcast actions for UI updates
+    // Broadcast actions
     public static final String ACTION_MESSAGE_RECEIVED = "com.emergencymesh.MESSAGE_RECEIVED";
     public static final String ACTION_MESSAGE_SENT = "com.emergencymesh.MESSAGE_SENT";
     public static final String ACTION_MESSAGE_FAILED = "com.emergencymesh.MESSAGE_FAILED";
     public static final String ACTION_DEVICE_CONNECTED = "com.emergencymesh.DEVICE_CONNECTED";
     public static final String ACTION_DEVICE_DISCONNECTED = "com.emergencymesh.DEVICE_DISCONNECTED";
     public static final String ACTION_DISCOVERY_DEVICE = "com.emergencymesh.DISCOVERY_DEVICE";
+    public static final String ACTION_MESSAGE_FORWARDED = "com.emergencymesh.MESSAGE_FORWARDED";
 
     public static final String EXTRA_MESSAGE = "message";
     public static final String EXTRA_DEVICE_ADDRESS = "device_address";
     public static final String EXTRA_DEVICE_NAME = "device_name";
     public static final String EXTRA_MESSAGE_ID = "message_id";
     public static final String EXTRA_ERROR = "error";
+    public static final String EXTRA_HOP_COUNT = "hop_count";
 
     private Context context;
     private BluetoothAdapter bluetoothAdapter;
@@ -67,10 +66,12 @@ public class BluetoothMeshService {
     private boolean isRunning = false;
 
     private MessageStorage messageStorage;
+    private MessageCache messageCache;
     private SharedPrefsHelper prefsHelper;
     private Handler mainHandler;
     private Gson gson;
     private LocalBroadcastManager broadcastManager;
+    private String deviceId; // Unique identifier for this device
 
     private class SimpleConnection {
         private final BluetoothSocket socket;
@@ -84,7 +85,6 @@ public class BluetoothMeshService {
         public SimpleConnection(BluetoothSocket socket) throws IOException {
             this.socket = socket;
             this.deviceAddress = socket.getRemoteDevice().getAddress();
-            // FIXED: Call the outer class method explicitly
             this.deviceName = BluetoothMeshService.this.getDeviceName(socket.getRemoteDevice());
 
             this.writer = new PrintWriter(socket.getOutputStream(), true);
@@ -103,7 +103,6 @@ public class BluetoothMeshService {
         private void autoSendEmergencyAlert() {
             String role = prefsHelper.getUserRole();
             if ("emergency".equals(role)) {
-                // Auto-send emergency alert
                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
                     Message alertMsg = new Message(
                             UUID.randomUUID().toString(),
@@ -114,9 +113,9 @@ public class BluetoothMeshService {
                                     prefsHelper.getName() + "\nPhone: " + prefsHelper.getPhone(),
                             "alert"
                     );
+                    alertMsg.setOriginDeviceId(deviceId);
                     sendMessage(alertMsg);
 
-                    // Auto-send location after 2 seconds
                     new Handler(Looper.getMainLooper()).postDelayed(() -> {
                         sendAutoLocation();
                     }, 2000);
@@ -163,6 +162,7 @@ public class BluetoothMeshService {
                             locationMsg,
                             "location"
                     );
+                    locMsg.setOriginDeviceId(deviceId);
                     sendMessage(locMsg);
                 }
             } catch (Exception e) {
@@ -190,23 +190,58 @@ public class BluetoothMeshService {
                 if ("PING".equals(jsonMessage)) return;
 
                 Message message = gson.fromJson(jsonMessage, Message.class);
-                if (message != null && !"ack".equals(message.getMessageType())) {
-                    // Store incoming message
-                    messageStorage.storeIncomingMessage(message);
+                if (message == null) return;
 
-                    // Broadcast to UI
-                    broadcastMessageReceived(message, deviceAddress);
-
-                    // Send acknowledgment back
-                    sendAck(message.getId());
-
-                    Log.d(TAG, "Message received: " + message.getMessageType() + " from " + deviceAddress);
-                } else if (message != null && "ack".equals(message.getMessageType())) {
-                    // Mark original message as delivered
+                // Handle acknowledgment messages
+                if ("ack".equals(message.getMessageType())) {
                     String originalMsgId = message.getContent().replace("ACK:", "");
                     messageStorage.markMessageAsDelivered(originalMsgId);
                     broadcastMessageSent(originalMsgId, deviceAddress);
+                    return;
                 }
+
+                // MULTI-HOP ROUTING LOGIC
+
+                // Check if message has expired
+                if (message.isExpired()) {
+                    Log.d(TAG, "Message expired, dropping: " + message.getId());
+                    return;
+                }
+
+                // Check if we've seen this message before (prevent loops)
+                if (messageCache.hasSeenMessage(message.getId())) {
+                    Log.d(TAG, "Duplicate message detected, dropping: " + message.getId());
+                    return;
+                }
+
+                // Mark message as seen
+                messageCache.markMessageAsSeen(message.getId());
+
+                // Check if this device was already in the route path (loop prevention)
+                if (message.hasVisitedDevice(deviceAddress)) {
+                    Log.d(TAG, "Loop detected, dropping message: " + message.getId());
+                    return;
+                }
+
+                // Store incoming message
+                messageStorage.storeIncomingMessage(message);
+
+                // Broadcast to UI
+                broadcastMessageReceived(message, deviceAddress);
+
+                // Send acknowledgment back
+                sendAck(message.getId());
+
+                Log.d(TAG, "Message received (hop " + message.getHopCount() + "): " +
+                        message.getMessageType() + " from " + deviceAddress);
+
+                // FORWARD MESSAGE TO OTHER DEVICES (Multi-hop)
+                if (message.canForward()) {
+                    forwardMessageToOthers(message, deviceAddress);
+                } else {
+                    Log.d(TAG, "Message reached max hops or expired, not forwarding: " + message.getId());
+                }
+
             } catch (Exception e) {
                 Log.e(TAG, "Error processing message", e);
             }
@@ -241,7 +276,7 @@ public class BluetoothMeshService {
                     return false;
                 }
 
-                Log.d(TAG, "Message sent to " + deviceAddress);
+                Log.d(TAG, "Message sent to " + deviceAddress + " (hop " + message.getHopCount() + ")");
                 return true;
             } catch (Exception e) {
                 Log.e(TAG, "Failed to send to " + deviceAddress, e);
@@ -273,6 +308,37 @@ public class BluetoothMeshService {
 
         public String getDeviceName() {
             return deviceName;
+        }
+    }
+
+    /**
+     * Forward a received message to all other connected devices (multi-hop routing)
+     */
+    private void forwardMessageToOthers(Message message, String sourceDeviceAddress) {
+        // Increment hop count and add this device to route path
+        message.incrementHop(deviceId);
+
+        int forwardCount = 0;
+        for (SimpleConnection connection : activeConnections.values()) {
+            // Don't send back to the device we received it from
+            if (connection.getDeviceAddress().equals(sourceDeviceAddress)) {
+                continue;
+            }
+
+            // Don't send to devices already in the route path
+            if (message.hasVisitedDevice(connection.getDeviceAddress())) {
+                continue;
+            }
+
+            if (connection.isConnected() && connection.sendMessage(message)) {
+                forwardCount++;
+                Log.d(TAG, "Forwarded message to " + connection.getDeviceAddress());
+            }
+        }
+
+        if (forwardCount > 0) {
+            broadcastMessageForwarded(message.getId(), forwardCount, message.getHopCount());
+            Log.d(TAG, "Message forwarded to " + forwardCount + " devices at hop " + message.getHopCount());
         }
     }
 
@@ -338,10 +404,15 @@ public class BluetoothMeshService {
         this.activeConnections = new ConcurrentHashMap<>();
         this.discoveredDevices = new ArrayList<>();
         this.messageStorage = new MessageStorage(context);
+        this.messageCache = new MessageCache(context);
         this.prefsHelper = new SharedPrefsHelper(context);
         this.mainHandler = new Handler(Looper.getMainLooper());
         this.gson = new Gson();
         this.broadcastManager = LocalBroadcastManager.getInstance(context);
+
+        // Generate unique device ID
+        this.deviceId = bluetoothAdapter != null ? bluetoothAdapter.getAddress() :
+                "DEVICE_" + System.currentTimeMillis();
 
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         context.registerReceiver(bluetoothReceiver, filter);
@@ -441,6 +512,14 @@ public class BluetoothMeshService {
             return;
         }
 
+        // Set origin device ID if not set
+        if (message.getOriginDeviceId() == null || message.getOriginDeviceId().isEmpty()) {
+            message.setOriginDeviceId(deviceId);
+        }
+
+        // Mark as seen to prevent receiving our own message back
+        messageCache.markMessageAsSeen(message.getId());
+
         boolean sentToAny = false;
         for (SimpleConnection connection : activeConnections.values()) {
             if (connection.isConnected() && connection.sendMessage(message)) {
@@ -467,11 +546,20 @@ public class BluetoothMeshService {
         return new ArrayList<>(discoveredDevices);
     }
 
-    // Broadcast methods for UI updates
+    public int getMessageCacheSize() {
+        return messageCache.getCacheSize();
+    }
+
+    public void clearMessageCache() {
+        messageCache.clearCache();
+    }
+
+    // Broadcast methods
     private void broadcastMessageReceived(Message message, String senderAddress) {
         Intent intent = new Intent(ACTION_MESSAGE_RECEIVED);
         intent.putExtra(EXTRA_MESSAGE, gson.toJson(message));
         intent.putExtra(EXTRA_DEVICE_ADDRESS, senderAddress);
+        intent.putExtra(EXTRA_HOP_COUNT, message.getHopCount());
         broadcastManager.sendBroadcast(intent);
     }
 
@@ -486,6 +574,14 @@ public class BluetoothMeshService {
         Intent intent = new Intent(ACTION_MESSAGE_FAILED);
         intent.putExtra(EXTRA_MESSAGE_ID, messageId);
         intent.putExtra(EXTRA_ERROR, error);
+        broadcastManager.sendBroadcast(intent);
+    }
+
+    private void broadcastMessageForwarded(String messageId, int deviceCount, int hopCount) {
+        Intent intent = new Intent(ACTION_MESSAGE_FORWARDED);
+        intent.putExtra(EXTRA_MESSAGE_ID, messageId);
+        intent.putExtra("device_count", deviceCount);
+        intent.putExtra(EXTRA_HOP_COUNT, hopCount);
         broadcastManager.sendBroadcast(intent);
     }
 
@@ -533,6 +629,10 @@ public class BluetoothMeshService {
             Log.e(TAG, "Error getting name", e);
         }
         return "Emergency Device";
+    }
+
+    public String getDeviceId() {
+        return deviceId;
     }
 
     public void cleanup() {
