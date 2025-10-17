@@ -8,7 +8,7 @@
     android:layout_margin="4dp"
     android:elevation="2dp">
 
-    <!-- Header with message type and timestamp -->
+    <!-- Header with message type, timestamp and delete button -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,7 +31,18 @@
             android:layout_height="wrap_content"
             android:text="Dec 25, 2024 15:30"
             android:textSize="12sp"
-            android:textColor="#666666" />
+            android:textColor="#666666"
+            android:layout_marginEnd="8dp" />
+
+        <!-- Delete Button -->
+        <Button
+            android:id="@+id/btnDeleteMessage"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="🗑"
+            android:textSize="14sp"
+            android:background="@drawable/delete_button"
+            android:padding="4dp" />
 
     </LinearLayout>
 
@@ -57,7 +68,7 @@
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
 
-    <!-- NEW: Route/Relay information -->
+    <!-- Route/Relay information -->
     <TextView
         android:id="@+id/tvRouteInfo"
         android:layout_width="match_parent"

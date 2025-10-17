@@ -1,8 +1,10 @@
 package com.emergencymesh.app;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +20,9 @@ public class MessageInboxActivity extends AppCompatActivity {
     private static final String TAG = "MessageInboxActivity";
 
     private RecyclerView rvMessages;
-    private TextView tvEmptyState, tvMessageCount;
+    private View tvEmptyState;
+    private TextView tvMessageCount;
+    private Button btnClearAll, btnClearIncoming, btnClearOutgoing;
     private MessageAdapter adapter;
     private MessageStorage messageStorage;
     private List<Message> messageList;
@@ -26,38 +30,40 @@ public class MessageInboxActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_message_inbox);
 
         try {
-            setContentView(R.layout.activity_message_inbox);
-
             messageStorage = new MessageStorage(this);
-
             initViews();
             setupRecyclerView();
+            setupButtons();
             loadMessages();
 
         } catch (Exception e) {
             Log.e(TAG, "Error in onCreate", e);
+            e.printStackTrace();
             Toast.makeText(this, "Error loading messages", Toast.LENGTH_SHORT).show();
-            finish();
         }
     }
 
     private void initViews() {
-        try {
-            rvMessages = findViewById(R.id.rvMessages);
-            tvEmptyState = findViewById(R.id.tvEmptyState);
-            tvMessageCount = findViewById(R.id.tvMessageCount);
-
-        } catch (Exception e) {
-            Log.e(TAG, "Error initializing views", e);
-        }
+        rvMessages = findViewById(R.id.rvMessages);
+        tvEmptyState = findViewById(R.id.tvEmptyState);
+        tvMessageCount = findViewById(R.id.tvMessageCount);
+        btnClearAll = findViewById(R.id.btnClearAll);
+        btnClearIncoming = findViewById(R.id.btnClearIncoming);
+        btnClearOutgoing = findViewById(R.id.btnClearOutgoing);
     }
 
     private void setupRecyclerView() {
         try {
             messageList = messageStorage.getAllMessages();
-            adapter = new MessageAdapter(messageList);
+            adapter = new MessageAdapter(messageList, new MessageAdapter.OnMessageActionListener() {
+                @Override
+                public void onDeleteMessage(Message message, int position) {
+                    deleteMessage(message, position);
+                }
+            });
 
             if (rvMessages != null) {
                 rvMessages.setLayoutManager(new LinearLayoutManager(this));
@@ -66,6 +72,20 @@ public class MessageInboxActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             Log.e(TAG, "Error setting up RecyclerView", e);
+        }
+    }
+
+    private void setupButtons() {
+        if (btnClearAll != null) {
+            btnClearAll.setOnClickListener(v -> showClearAllDialog());
+        }
+
+        if (btnClearIncoming != null) {
+            btnClearIncoming.setOnClickListener(v -> showClearIncomingDialog());
+        }
+
+        if (btnClearOutgoing != null) {
+            btnClearOutgoing.setOnClickListener(v -> showClearOutgoingDialog());
         }
     }
 
@@ -83,7 +103,6 @@ public class MessageInboxActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             Log.e(TAG, "Error loading messages", e);
-            Toast.makeText(this, "Error loading messages", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -108,10 +127,102 @@ public class MessageInboxActivity extends AppCompatActivity {
         }
     }
 
+    private void deleteMessage(Message message, int position) {
+        if (message == null) {
+            Toast.makeText(this, "Error deleting message", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        new AlertDialog.Builder(this)
+                .setTitle("Delete Message")
+                .setMessage("Are you sure you want to delete this message?")
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    try {
+                        messageStorage.deleteMessage(message.getId());
+
+                        if (messageList != null && position >= 0 && position < messageList.size()) {
+                            messageList.remove(position);
+                            if (adapter != null) {
+                                adapter.notifyItemRemoved(position);
+                            }
+                        }
+
+                        updateUI();
+                        Toast.makeText(this, "Message deleted", Toast.LENGTH_SHORT).show();
+
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error deleting message", e);
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    private void showClearAllDialog() {
+        int totalMessages = messageStorage.getTotalMessageCount();
+
+        if (totalMessages == 0) {
+            Toast.makeText(this, "No messages to clear", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        new AlertDialog.Builder(this)
+                .setTitle("Clear All Messages")
+                .setMessage("Delete all " + totalMessages + " messages?")
+                .setPositiveButton("YES", (dialog, which) -> {
+                    messageStorage.clearAllMessages();
+                    loadMessages();
+                    Toast.makeText(this, "All messages cleared", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    private void showClearIncomingDialog() {
+        List<Message> incomingMessages = messageStorage.getIncomingMessages();
+        int incomingCount = incomingMessages != null ? incomingMessages.size() : 0;
+
+        if (incomingCount == 0) {
+            Toast.makeText(this, "No received messages to clear", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        new AlertDialog.Builder(this)
+                .setTitle("Clear Received Messages")
+                .setMessage("Delete all " + incomingCount + " received messages?")
+                .setPositiveButton("YES", (dialog, which) -> {
+                    messageStorage.clearIncomingMessages();
+                    loadMessages();
+                    Toast.makeText(this, "Received messages cleared", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    private void showClearOutgoingDialog() {
+        List<Message> outgoingMessages = messageStorage.getOutgoingMessages();
+        int outgoingCount = outgoingMessages != null ? outgoingMessages.size() : 0;
+
+        if (outgoingCount == 0) {
+            Toast.makeText(this, "No sent messages to clear", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        new AlertDialog.Builder(this)
+                .setTitle("Clear Sent Messages")
+                .setMessage("Delete all " + outgoingCount + " sent messages?")
+                .setPositiveButton("YES", (dialog, which) -> {
+                    messageStorage.clearOutgoingMessages();
+                    loadMessages();
+                    Toast.makeText(this, "Sent messages cleared", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        // Refresh messages when returning to this screen
         loadMessages();
     }
 }

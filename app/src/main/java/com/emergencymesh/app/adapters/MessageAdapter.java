@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.emergencymesh.app.R;
@@ -17,10 +18,21 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     private List<Message> messages;
     private SimpleDateFormat dateFormat;
+    private OnMessageActionListener listener;
+
+    public interface OnMessageActionListener {
+        void onDeleteMessage(Message message, int position);
+    }
 
     public MessageAdapter(List<Message> messages) {
         this.messages = messages;
         this.dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.getDefault());
+    }
+
+    public MessageAdapter(List<Message> messages, OnMessageActionListener listener) {
+        this.messages = messages;
+        this.dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.getDefault());
+        this.listener = listener;
     }
 
     @Override
@@ -91,6 +103,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         } else {
             holder.tvRouteInfo.setVisibility(View.GONE);
         }
+
+        // Set delete button click listener
+        holder.btnDeleteMessage.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onDeleteMessage(message, holder.getAdapterPosition());
+            }
+        });
     }
 
     @Override
@@ -101,6 +120,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     public static class MessageViewHolder extends RecyclerView.ViewHolder {
         TextView tvSenderInfo, tvMessageContent, tvTimestamp, tvMessageType,
                 tvDeliveryStatus, tvRecipientInfo, tvRouteInfo;
+        Button btnDeleteMessage;
 
         public MessageViewHolder(View itemView) {
             super(itemView);
@@ -111,6 +131,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             tvDeliveryStatus = itemView.findViewById(R.id.tvDeliveryStatus);
             tvRecipientInfo = itemView.findViewById(R.id.tvRecipientInfo);
             tvRouteInfo = itemView.findViewById(R.id.tvRouteInfo);
+            btnDeleteMessage = itemView.findViewById(R.id.btnDeleteMessage);
         }
     }
 }

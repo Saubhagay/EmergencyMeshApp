@@ -44,7 +44,7 @@ public class MessageStorage {
 
             String json = gson.toJson(messages);
             editor.putString(KEY_OUTGOING_MESSAGES, json);
-            editor.apply();
+            editor.commit(); // Use commit instead of apply for immediate persistence
 
             Log.d(TAG, "Stored outgoing message: " + message.getMessageType());
         } catch (Exception e) {
@@ -73,7 +73,7 @@ public class MessageStorage {
 
             String json = gson.toJson(messages);
             editor.putString(KEY_INCOMING_MESSAGES, json);
-            editor.apply();
+            editor.commit(); // Use commit instead of apply
 
             Log.d(TAG, "Stored incoming message from: " + message.getSenderName());
         } catch (Exception e) {
@@ -186,7 +186,7 @@ public class MessageStorage {
             if (updated) {
                 String json = gson.toJson(messages);
                 editor.putString(KEY_OUTGOING_MESSAGES, json);
-                editor.apply();
+                editor.commit();
                 Log.d(TAG, "Marked message as delivered: " + messageId);
             } else {
                 Log.w(TAG, "Message not found for delivery confirmation: " + messageId);
@@ -198,8 +198,6 @@ public class MessageStorage {
 
     public int getUnreadMessageCount() {
         try {
-            // For simplicity, we'll consider all incoming messages as "unread"
-            // You could add a separate "read" flag to the Message model if needed
             return getIncomingMessages().size();
         } catch (Exception e) {
             Log.e(TAG, "Error getting unread message count", e);
@@ -220,7 +218,7 @@ public class MessageStorage {
         try {
             editor.putString(KEY_OUTGOING_MESSAGES, "");
             editor.putString(KEY_INCOMING_MESSAGES, "");
-            editor.apply();
+            editor.commit(); // Use commit for immediate persistence
             Log.d(TAG, "All messages cleared");
         } catch (Exception e) {
             Log.e(TAG, "Error clearing messages", e);
@@ -230,7 +228,7 @@ public class MessageStorage {
     public void clearOutgoingMessages() {
         try {
             editor.putString(KEY_OUTGOING_MESSAGES, "");
-            editor.apply();
+            editor.commit(); // Use commit for immediate persistence
             Log.d(TAG, "Outgoing messages cleared");
         } catch (Exception e) {
             Log.e(TAG, "Error clearing outgoing messages", e);
@@ -240,7 +238,7 @@ public class MessageStorage {
     public void clearIncomingMessages() {
         try {
             editor.putString(KEY_INCOMING_MESSAGES, "");
-            editor.apply();
+            editor.commit(); // Use commit for immediate persistence
             Log.d(TAG, "Incoming messages cleared");
         } catch (Exception e) {
             Log.e(TAG, "Error clearing incoming messages", e);
@@ -289,7 +287,7 @@ public class MessageStorage {
             if (removedFromOutgoing) {
                 String json = gson.toJson(outgoingMessages);
                 editor.putString(KEY_OUTGOING_MESSAGES, json);
-                editor.apply();
+                editor.commit();
                 Log.d(TAG, "Deleted outgoing message: " + messageId);
                 return;
             }
@@ -301,7 +299,7 @@ public class MessageStorage {
             if (removedFromIncoming) {
                 String json = gson.toJson(incomingMessages);
                 editor.putString(KEY_INCOMING_MESSAGES, json);
-                editor.apply();
+                editor.commit();
                 Log.d(TAG, "Deleted incoming message: " + messageId);
             } else {
                 Log.w(TAG, "Message not found for deletion: " + messageId);
