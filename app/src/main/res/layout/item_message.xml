@@ -81,7 +81,7 @@
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
 
-    <!-- Message content -->
+    <!-- Message content - UPDATED FOR CLICKABLE LINKS -->
     <TextView
         android:id="@+id/tvMessageContent"
         android:layout_width="match_parent"
@@ -90,7 +90,10 @@
         android:textSize="16sp"
         android:textColor="#333333"
         android:lineSpacingMultiplier="1.2"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="8dp"
+        android:autoLink="web"
+        android:linksClickable="true"
+        android:textColorLink="#2196F3" />
 
     <!-- Delivery status -->
     <TextView

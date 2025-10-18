@@ -1,6 +1,7 @@
 package com.emergencymesh.app.adapters;
 
 import android.graphics.Color;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,8 +54,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         }
         holder.tvSenderInfo.setText(senderInfo);
 
-        // Set message content
+        // Set message content and make links clickable
         holder.tvMessageContent.setText(message.getContent());
+
+        // CRITICAL: Enable link detection and make links clickable
+        holder.tvMessageContent.setAutoLinkMask(Linkify.WEB_URLS);
+        Linkify.addLinks(holder.tvMessageContent, Linkify.WEB_URLS);
+        holder.tvMessageContent.setLinksClickable(true);
 
         // Set timestamp
         Date messageDate = new Date(message.getTimestamp());
