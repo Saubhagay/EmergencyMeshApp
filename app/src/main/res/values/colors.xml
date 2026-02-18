@@ -7,10 +7,32 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <!-- Emergency Mesh Colors -->
-    <color name="emergency_primary">#FF5722</color>
-    <color name="emergency_primary_dark">#E64A19</color>
-    <color name="emergency_accent">#FF9800</color>
-    <color name="emergency_background">#F5F5F5</color>
-    <color name="emergency_alert">#F44336</color>
+    <!-- Emergency Mesh Dark Theme Colors -->
+    <color name="bg_dark">#0D1117</color>
+    <color name="bg_card">#161B22</color>
+    <color name="bg_card_elevated">#1C2333</color>
+    <color name="bg_surface">#21262D</color>
+
+    <color name="accent_red">#E53935</color>
+    <color name="accent_red_dark">#B71C1C</color>
+    <color name="accent_green">#00C853</color>
+    <color name="accent_green_dark">#1B5E20</color>
+    <color name="accent_blue">#2979FF</color>
+    <color name="accent_orange">#FF6D00</color>
+
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#8B949E</color>
+    <color name="text_muted">#484F58</color>
+
+    <color name="border_subtle">#30363D</color>
+    <color name="status_online">#3FB950</color>
+    <color name="status_relaying">#58A6FF</color>
+    <color name="status_offline">#6E7681</color>
+
+    <!-- Legacy support -->
+    <color name="emergency_primary">#E53935</color>
+    <color name="emergency_primary_dark">#B71C1C</color>
+    <color name="emergency_accent">#FF6D00</color>
+    <color name="emergency_background">#0D1117</color>
+    <color name="emergency_alert">#E53935</color>
 </resources>

@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView tvConnectionStatus, tvMeshInfo;
     private Button btnSendMessage, btnSendLocation, btnEmergencyContacts,
-            btnNearbyDevices, btnBroadcastAlert, btnProfile, btnMessageInbox;
+            btnNearbyDevices, btnBroadcastAlert, btnSlideSOS, btnMessageInbox;
+    private LinearLayout navHome, navInbox, navMesh, navOn;
     private SharedPrefsHelper prefsHelper;
     private BluetoothMeshService meshService;
     private Gson gson;
@@ -116,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
         initViews();
         setupClickListeners();
-        checkPermissions();
+        checkPermissions(); // setupMeshService() is called inside after permissions granted
     }
 
     private void initViews() {
@@ -127,8 +129,12 @@ public class MainActivity extends AppCompatActivity {
         btnEmergencyContacts = findViewById(R.id.btnEmergencyContacts);
         btnNearbyDevices = findViewById(R.id.btnNearbyDevices);
         btnBroadcastAlert = findViewById(R.id.btnBroadcastAlert);
-        btnProfile = findViewById(R.id.btnProfile);
+        btnSlideSOS = findViewById(R.id.btnSlideSOS);
         btnMessageInbox = findViewById(R.id.btnMessageInbox);
+        navHome = findViewById(R.id.navHome);
+        navInbox = findViewById(R.id.navInbox);
+        navMesh = findViewById(R.id.navMesh);
+        navOn = findViewById(R.id.navOn);
 
         tvConnectionStatus.setText("Initializing");
         tvConnectionStatus.setTextColor(getColor(android.R.color.holo_orange_light));
@@ -158,15 +164,69 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        btnProfile.setOnClickListener(v ->
-                startActivity(new Intent(this, ProfileSetupActivity.class)));
+        // SOS Slide Button — confirm then broadcast SOS alert
+        if (btnSlideSOS != null) {
+            btnSlideSOS.setOnClickListener(v -> {
+                new android.app.AlertDialog.Builder(this)
+                        .setTitle("🚨 Send SOS Alert?")
+                        .setMessage("This will broadcast an emergency SOS to all nearby mesh devices. Continue?")
+                        .setPositiveButton("SEND SOS", (dialog, which) -> {
+                            Intent intent = new Intent(this, SendMessageActivity.class);
+                            intent.putExtra("message_type", "alert");
+                            intent.putExtra("broadcast_mode", true);
+                            intent.putExtra("sos_mode", true);
+                            startActivity(intent);
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
+            });
+        }
 
         btnMessageInbox.setOnClickListener(v ->
                 startActivity(new Intent(this, MessageInboxActivity.class)));
+
+        // Bottom navigation
+        if (navHome != null) {
+            navHome.setOnClickListener(v ->
+                Toast.makeText(this, "You are on Home", Toast.LENGTH_SHORT).show());
+        }
+
+        if (navInbox != null) {
+            navInbox.setOnClickListener(v ->
+                    startActivity(new Intent(this, MessageInboxActivity.class)));
+        }
+
+        if (navMesh != null) {
+            navMesh.setOnClickListener(v ->
+                    startActivity(new Intent(this, NearbyDevicesActivity.class)));
+        }
+
+        if (navOn != null) {
+            navOn.setOnClickListener(v -> {
+                // Re-fetch service in case it started after click listeners were set up
+                BluetoothMeshService svc = GlobalMeshService.getInstance(this).getMeshService();
+                if (svc != null) {
+                    List<String> devices = svc.getConnectedDevices();
+                    Toast.makeText(this,
+                            devices.isEmpty()
+                                ? "Mesh ON — No devices connected yet"
+                                : "Mesh ON — " + devices.size() + " device(s) connected",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Mesh service starting...", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     private void setupMeshService() {
         meshService = GlobalMeshService.getInstance(this).getMeshService();
+
+        if (meshService == null) {
+            Log.w(TAG, "MeshService not ready yet");
+            updateConnectionStatus();
+            return;
+        }
 
         if (meshService.isBluetoothEnabled()) {
             GlobalMeshService.getInstance(this).startService();

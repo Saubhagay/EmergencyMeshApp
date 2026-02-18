@@ -55,16 +55,39 @@ public class SendMessageActivity extends AppCompatActivity {
 
         broadcastMode = getIntent().getBooleanExtra("broadcast_mode", false);
 
-        initViews();
+        String messageType = getIntent().getStringExtra("message_type");
+        boolean sosMode = getIntent().getBooleanExtra("sos_mode", false);
+        String recipientPhone = getIntent().getStringExtra("recipient_phone");
+        String recipientName = getIntent().getStringExtra("recipient_name");
+
+        // If a specific recipient is provided, disable broadcast mode
+        if (recipientPhone != null && !recipientPhone.isEmpty()) {
+            broadcastMode = false;
+        }
+
+        initViews(); // initViews uses broadcastMode to show/hide recipient field
         setupButtons();
 
-        String messageType = getIntent().getStringExtra("message_type");
+        // Pre-fill recipient if replying
+        if (recipientPhone != null && !recipientPhone.isEmpty() && etRecipientPhone != null) {
+            etRecipientPhone.setText(recipientPhone);
+            etRecipientPhone.setEnabled(false); // Lock it — user shouldn't change reply target
+        }
+
         if ("location".equals(messageType) && rbLocation != null) {
             rbLocation.setChecked(true);
             getCurrentLocation();
         } else if ("alert".equals(messageType) && rbAlert != null) {
             rbAlert.setChecked(true);
-            etMessageContent.setText("🚨 EMERGENCY ALERT 🚨\n\nI need immediate help!\n\nFrom: " + prefsHelper.getName() + "\nPhone: " + prefsHelper.getPhone());
+            if (sosMode) {
+                etMessageContent.setText("\uD83D\uDEA8 SOS EMERGENCY \uD83D\uDEA8\n\nI need immediate help! This is an emergency.\n\nFrom: " + prefsHelper.getName() + "\nPhone: " + prefsHelper.getPhone());
+            } else {
+                etMessageContent.setText("\uD83D\uDEA8 EMERGENCY ALERT \uD83D\uDEA8\n\nI need immediate help!\n\nFrom: " + prefsHelper.getName() + "\nPhone: " + prefsHelper.getPhone());
+            }
+        } else if (sosMode && rbAlert != null) {
+            // SOS mode without explicit message_type — still set alert
+            rbAlert.setChecked(true);
+            etMessageContent.setText("\uD83D\uDEA8 SOS EMERGENCY \uD83D\uDEA8\n\nI need immediate help! This is an emergency.\n\nFrom: " + prefsHelper.getName() + "\nPhone: " + prefsHelper.getPhone());
         }
     }
 

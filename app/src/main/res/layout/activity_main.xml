@@ -1,181 +1,464 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5">
+    android:orientation="vertical"
+    android:background="#0D1117">
 
+    <!-- Top Header Bar -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:background="#0D1117"
+        android:paddingHorizontal="16dp"
+        android:gravity="center_vertical">
 
-        <!-- Header -->
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_emergency_mesh"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Emergency Mesh"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RELAYING"
+            android:textSize="10sp"
+            android:textColor="#58A6FF"
+            android:background="@drawable/badge_blue"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:textStyle="bold"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:id="@+id/tvConnectionStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MESH ACTIVE"
+            android:textSize="10sp"
+            android:textColor="#00C853"
+            android:background="@drawable/badge_green"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <!-- Scrollable Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="#FF5722"
-            android:padding="16dp"
-            android:layout_marginBottom="20dp"
-            android:elevation="4dp">
+            android:padding="16dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Emergency Mesh"
-                    android:textSize="24sp"
-                    android:textColor="#FFFFFF"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tvConnectionStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="● Offline"
-                    android:textColor="#FFCCBC"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
-
+            <!-- Mesh Info Status Bar -->
             <TextView
                 android:id="@+id/tvMeshInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Starting mesh network..."
-                android:textColor="#FFCCBC"
+                android:text="Starting multi-hop emergency mesh..."
+                android:textColor="#8B949E"
                 android:textSize="12sp"
-                android:layout_marginTop="4dp" />
+                android:gravity="center"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Action Buttons Grid - 2 columns -->
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="3"
+                android:layout_marginBottom="20dp">
+
+                <!-- Send Message -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="6dp"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/card_dark">
+
+                    <TextView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:text="✈"
+                        android:textSize="20sp"
+                        android:textColor="#FFFFFF"
+                        android:gravity="center"
+                        android:background="@drawable/sos_button_circle"
+                        android:layout_marginBottom="8dp" />
+
+                    <Button
+                        android:id="@+id/btnSendMessage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Send Message"
+                        android:textSize="13sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@android:color/transparent"
+                        android:gravity="center"
+                        android:fontFamily="sans-serif-medium" />
+
+                </LinearLayout>
+
+                <!-- Message Inbox -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="6dp"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/card_dark">
+
+                    <Button
+                        android:id="@+id/btnMessageInbox"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="📬&#10;Message Inbox"
+                        android:textSize="13sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@android:color/transparent"
+                        android:gravity="center"
+                        android:fontFamily="sans-serif-medium" />
+
+                </LinearLayout>
+
+                <!-- Send Location -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="6dp"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/card_dark">
+
+                    <Button
+                        android:id="@+id/btnSendLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="📍&#10;Send Location"
+                        android:textSize="13sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@android:color/transparent"
+                        android:gravity="center"
+                        android:fontFamily="sans-serif-medium" />
+
+                </LinearLayout>
+
+                <!-- Emergency Contacts -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="6dp"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/card_dark">
+
+                    <Button
+                        android:id="@+id/btnEmergencyContacts"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="👥&#10;Emergency Contacts"
+                        android:textSize="13sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@android:color/transparent"
+                        android:gravity="center"
+                        android:fontFamily="sans-serif-medium" />
+
+                </LinearLayout>
+
+                <!-- Mesh Network -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="6dp"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/card_dark">
+
+                    <Button
+                        android:id="@+id/btnNearbyDevices"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="📡&#10;Mesh Network"
+                        android:textSize="13sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@android:color/transparent"
+                        android:gravity="center"
+                        android:fontFamily="sans-serif-medium" />
+
+                </LinearLayout>
+
+                <!-- Broadcast Alert -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="6dp"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/card_dark">
+
+                    <Button
+                        android:id="@+id/btnBroadcastAlert"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="📢&#10;Broadcast Alert"
+                        android:textSize="13sp"
+                        android:textColor="#FF6D00"
+                        android:background="@android:color/transparent"
+                        android:gravity="center"
+                        android:fontFamily="sans-serif-medium" />
+
+                </LinearLayout>
+
+            </GridLayout>
+
+            <!-- How It Works Card -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/card_dark"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ℹ"
+                        android:textSize="14sp"
+                        android:textColor="#58A6FF"
+                        android:layout_marginEnd="8dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="How Emergency Mesh Works"
+                        android:textSize="14sp"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1. Your device automatically connects to nearby Emergency Mesh devices via Bluetooth."
+                    android:textSize="13sp"
+                    android:textColor="#8B949E"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="2. Messages are sent directly between devices without internet or cell towers."
+                    android:textSize="13sp"
+                    android:textColor="#8B949E"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="3. Messages can hop through multiple devices to reach distant nodes."
+                    android:textSize="13sp"
+                    android:textColor="#8B949E" />
+
+            </LinearLayout>
+
+            <!-- SOS Slide Button -->
+            <LinearLayout
+                android:id="@+id/layoutSlideSOS"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:orientation="horizontal"
+                android:background="#1A0000"
+                android:gravity="center_vertical"
+                android:padding="8dp"
+                android:layout_marginBottom="8dp">
+
+                <LinearLayout
+                    android:id="@+id/sosSliderThumb"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/sos_button_circle"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="»"
+                        android:textSize="20sp"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnSlideSOS"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="SLIDE TO SOS →"
+                    android:textSize="14sp"
+                    android:textColor="#FF4444"
+                    android:background="@android:color/transparent"
+                    android:letterSpacing="0.1"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Bottom Navigation -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="@drawable/bottom_nav_bg"
+        android:paddingTop="8dp">
+
+        <LinearLayout
+            android:id="@+id/navHome"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⊞"
+                android:textSize="20sp"
+                android:textColor="#58A6FF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HOME"
+                android:textSize="10sp"
+                android:textColor="#58A6FF"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
-        <!-- Emergency Buttons Grid -->
-        <GridLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:columnCount="2"
-            android:rowCount="4">
-
-            <!-- Send Message -->
-            <Button
-                android:id="@+id/btnSendMessage"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="8dp"
-                android:text="📩\nSend Message"
-                android:textSize="16sp"
-                android:background="@drawable/emergency_button"
-                android:textColor="#FFFFFF" />
-
-            <!-- Message Inbox -->
-            <Button
-                android:id="@+id/btnMessageInbox"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="8dp"
-                android:text="📬\nMessage Inbox"
-                android:textSize="16sp"
-                android:background="@drawable/emergency_button"
-                android:textColor="#FFFFFF" />
-
-            <!-- Send Location -->
-            <Button
-                android:id="@+id/btnSendLocation"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="8dp"
-                android:text="📍\nSend Location"
-                android:textSize="16sp"
-                android:background="@drawable/emergency_button"
-                android:textColor="#FFFFFF" />
-
-            <!-- Emergency Contacts -->
-            <Button
-                android:id="@+id/btnEmergencyContacts"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="8dp"
-                android:text="🗂\nEmergency Contacts"
-                android:textSize="16sp"
-                android:background="@drawable/emergency_button"
-                android:textColor="#FFFFFF" />
-
-            <!-- Nearby Devices -->
-            <Button
-                android:id="@+id/btnNearbyDevices"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="8dp"
-                android:text="📡\nMesh Network"
-                android:textSize="16sp"
-                android:background="@drawable/emergency_button"
-                android:textColor="#FFFFFF" />
-
-            <!-- Broadcast Alert -->
-            <Button
-                android:id="@+id/btnBroadcastAlert"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="8dp"
-                android:text="⚠️\nBroadcast Alert"
-                android:textSize="16sp"
-                android:background="@drawable/alert_button"
-                android:textColor="#FFFFFF" />
-
-            <!-- Profile Setup -->
-            <Button
-                android:id="@+id/btnProfile"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="8dp"
-                android:text="👤\nProfile"
-                android:textSize="16sp"
-                android:background="@drawable/emergency_button"
-                android:textColor="#FFFFFF" />
-
-        </GridLayout>
-
-        <!-- Instructions Card -->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/navInbox"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="vertical"
-            android:background="#FFFFFF"
-            android:padding="16dp"
-            android:layout_marginTop="20dp"
-            android:elevation="2dp">
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="How Emergency Mesh Works"
-                android:textSize="18sp"
+                android:text="✉"
+                android:textSize="20sp"
+                android:textColor="#8B949E" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="INBOX"
+                android:textSize="10sp"
+                android:textColor="#8B949E" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/navMesh"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⛙"
+                android:textSize="20sp"
+                android:textColor="#8B949E" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MESH"
+                android:textSize="10sp"
+                android:textColor="#8B949E" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/navOn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="X"
+                android:textSize="20sp"
+                android:textColor="#00C853"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp"
-                android:textColor="#FF5722" />
+                android:background="@drawable/badge_green"
+                android:paddingHorizontal="6dp" />
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1. Your device automatically connects to nearby Emergency Mesh devices via Bluetooth\n\n2. Messages are sent directly between devices without internet\n\n3. Messages can hop through multiple devices to reach their destination\n\n4. All emergency contacts and messages are stored locally for offline access\n\n5. Check Message Inbox to view received emergency messages"
-                android:textSize="14sp"
-                android:textColor="#666666"
-                android:lineSpacingMultiplier="1.2" />
+                android:text="ON"
+                android:textSize="10sp"
+                android:textColor="#00C853"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
     </LinearLayout>
-</ScrollView>
+
+</LinearLayout>

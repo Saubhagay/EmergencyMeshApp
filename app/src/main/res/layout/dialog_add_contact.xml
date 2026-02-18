@@ -1,113 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#161B22"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Emergency Contact"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CONTACT NAME"
+        android:textSize="11sp"
+        android:textColor="#8B949E"
+        android:letterSpacing="0.05"
+        android:layout_marginBottom="6dp" />
+
+    <EditText
+        android:id="@+id/etContactName"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Enter contact name"
+        android:textColorHint="#484F58"
+        android:background="@drawable/edit_text_background"
+        android:padding="12dp"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PHONE NUMBER"
+        android:textSize="11sp"
+        android:textColor="#8B949E"
+        android:letterSpacing="0.05"
+        android:layout_marginBottom="6dp" />
+
+    <EditText
+        android:id="@+id/etContactPhone"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Enter phone number"
+        android:textColorHint="#484F58"
+        android:inputType="phone"
+        android:background="@drawable/edit_text_background"
+        android:padding="12dp"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RELATIONSHIP"
+        android:textSize="11sp"
+        android:textColor="#8B949E"
+        android:letterSpacing="0.05"
+        android:layout_marginBottom="6dp" />
+
+    <Spinner
+        android:id="@+id/spinnerRelationship"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/edit_text_background"
+        android:layout_marginBottom="16dp" />
+
+    <CheckBox
+        android:id="@+id/cbPrimaryContact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mark as SOS Notify contact"
+        android:textColor="#8B949E"
+        android:textSize="13sp"
+        android:buttonTint="#E53935"
+        android:layout_marginBottom="20dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add Emergency Contact"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="20dp" />
-
-        <!-- Name -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Contact Name *"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
-
-        <EditText
-            android:id="@+id/etContactName"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="0dp"
             android:layout_height="48dp"
-            android:hint="Enter contact name"
-            android:background="@drawable/edit_text_background"
-            android:padding="12dp"
-            android:layout_marginBottom="16dp" />
+            android:layout_weight="1"
+            android:text="Cancel"
+            android:textColor="#8B949E"
+            android:background="@drawable/button_dark"
+            android:layout_marginEnd="8dp" />
 
-        <!-- Phone Number -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Phone Number *"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
-
-        <EditText
-            android:id="@+id/etContactPhone"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="0dp"
             android:layout_height="48dp"
-            android:hint="Enter phone number"
-            android:inputType="phone"
-            android:background="@drawable/edit_text_background"
-            android:padding="12dp"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Relationship -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Relationship"
+            android:layout_weight="1"
+            android:text="Save Contact"
+            android:textColor="#FFFFFF"
             android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
-
-        <Spinner
-            android:id="@+id/spinnerRelationship"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="@drawable/edit_text_background"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Primary Contact Checkbox -->
-        <CheckBox
-            android:id="@+id/cbPrimaryContact"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Make this primary emergency contact"
-            android:layout_marginBottom="20dp" />
-
-        <!-- Buttons -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnCancel"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:text="Cancel"
-                android:background="@drawable/template_button"
-                android:layout_marginEnd="8dp" />
-
-            <Button
-                android:id="@+id/btnSave"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:text="Save Contact"
-                android:background="@drawable/emergency_button"
-                android:textColor="#FFFFFF"
-                android:layout_marginStart="8dp" />
-
-        </LinearLayout>
+            android:background="@drawable/emergency_button"
+            android:layout_marginStart="8dp" />
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

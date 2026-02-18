@@ -1,10 +1,12 @@
 package com.emergencymesh.app;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +25,7 @@ public class MessageInboxActivity extends AppCompatActivity {
     private View tvEmptyState;
     private TextView tvMessageCount;
     private Button btnClearAll, btnClearIncoming, btnClearOutgoing;
+    private LinearLayout navHome, navInbox, navMesh, navOn;
     private MessageAdapter adapter;
     private MessageStorage messageStorage;
     private List<Message> messageList;
@@ -37,6 +40,7 @@ public class MessageInboxActivity extends AppCompatActivity {
             initViews();
             setupRecyclerView();
             setupButtons();
+            setupNavigation();
             loadMessages();
 
         } catch (Exception e) {
@@ -53,6 +57,34 @@ public class MessageInboxActivity extends AppCompatActivity {
         btnClearAll = findViewById(R.id.btnClearAll);
         btnClearIncoming = findViewById(R.id.btnClearIncoming);
         btnClearOutgoing = findViewById(R.id.btnClearOutgoing);
+        navHome = findViewById(R.id.navHome);
+        navInbox = findViewById(R.id.navInbox);
+        navMesh = findViewById(R.id.navMesh);
+        navOn = findViewById(R.id.navOn);
+    }
+
+    private void setupNavigation() {
+        if (navHome != null) {
+            navHome.setOnClickListener(v -> {
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish();
+            });
+        }
+        if (navInbox != null) {
+            navInbox.setOnClickListener(v -> loadMessages());
+        }
+        if (navMesh != null) {
+            navMesh.setOnClickListener(v -> {
+                startActivity(new Intent(this, NearbyDevicesActivity.class));
+                finish();
+            });
+        }
+        if (navOn != null) {
+            navOn.setOnClickListener(v ->
+                Toast.makeText(this, "Mesh is active", Toast.LENGTH_SHORT).show());
+        }
     }
 
     private void setupRecyclerView() {
@@ -62,6 +94,17 @@ public class MessageInboxActivity extends AppCompatActivity {
                 @Override
                 public void onDeleteMessage(Message message, int position) {
                     deleteMessage(message, position);
+                }
+
+                @Override
+                public void onReplyMessage(Message message) {
+                    // Open SendMessageActivity pre-filled with sender info
+                    Intent intent = new Intent(MessageInboxActivity.this, SendMessageActivity.class);
+                    if (message.getSenderPhone() != null && !message.getSenderPhone().isEmpty()) {
+                        intent.putExtra("recipient_phone", message.getSenderPhone());
+                        intent.putExtra("recipient_name", message.getSenderName());
+                    }
+                    startActivity(intent);
                 }
             });
 

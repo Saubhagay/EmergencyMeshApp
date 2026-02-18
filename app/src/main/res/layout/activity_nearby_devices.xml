@@ -1,209 +1,337 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#0D1117">
 
+    <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="#F5F5F5"
-        android:padding="16dp">
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:background="#0D1117"
+        android:paddingHorizontal="16dp"
+        android:gravity="center_vertical">
 
-        <!-- Header -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="20dp">
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_emergency_mesh"
+            android:layout_marginEnd="8dp" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Mesh Network"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="#FF5722" />
-
-            <Button
-                android:id="@+id/btnScan"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:text="Scan"
-                android:background="@drawable/emergency_button"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
-        <!-- Bluetooth Status -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="#E3F2FD"
-            android:padding="12dp"
-            android:layout_marginBottom="8dp"
-            android:elevation="2dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Bluetooth Status:"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvBluetoothStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Checking..."
-                android:textColor="#1976D2" />
-
-        </LinearLayout>
-
-        <!-- Connection Status -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="#E8F5E8"
-            android:padding="12dp"
-            android:layout_marginBottom="8dp"
-            android:elevation="2dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Mesh Status:"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvConnectionStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="● No Connections"
-                android:textColor="#FF9800" />
-
-        </LinearLayout>
-
-        <!-- Connected Devices Count -->
         <TextView
-            android:id="@+id/tvConnectedDevicesCount"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Connected Devices: 0"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:padding="8dp"
-            android:background="#FFF3E0"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Scanning Progress -->
-        <LinearLayout
-            android:id="@+id/llScanningProgress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:padding="12dp"
-            android:layout_marginBottom="16dp"
-            android:visibility="gone">
-
-            <ProgressBar
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="12dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Scanning for nearby devices..."
-                android:textStyle="italic" />
-
-        </LinearLayout>
-
-        <!-- Device List Header -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Discovered Emergency Devices"
+            android:layout_weight="1"
+            android:text="Emergency Mesh"
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
 
-        <!-- Devices RecyclerView -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvDevices"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="#FFFFFF"
-            android:elevation="2dp" />
-
-        <!-- No Devices Message -->
         <TextView
-            android:id="@+id/tvNoDevices"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="No emergency devices found.\n\nMake sure:\n• Bluetooth is enabled\n• Other devices are running Emergency Mesh app\n• Devices are within Bluetooth range (10-30 meters)"
-            android:gravity="center"
-            android:textSize="16sp"
-            android:textColor="#666666"
-            android:visibility="visible" />
-
-        <!-- Action Buttons Grid -->
-        <GridLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:columnCount="2"
-            android:rowCount="2"
-            android:layout_marginTop="16dp">
+            android:text="RELAYING"
+            android:textSize="10sp"
+            android:textColor="#58A6FF"
+            android:background="@drawable/badge_blue"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:textStyle="bold"
+            android:layout_marginEnd="8dp" />
 
-            <Button
-                android:id="@+id/btnMakeDiscoverable"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_columnWeight="1"
-                android:text="Make Discoverable"
-                android:background="@drawable/emergency_button"
-                android:textColor="#FFFFFF"
-                android:layout_margin="4dp" />
-
-            <Button
-                android:id="@+id/btnRefresh"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_columnWeight="1"
-                android:text="Refresh"
-                android:background="@drawable/template_button"
-                android:layout_margin="4dp" />
-
-            <Button
-                android:id="@+id/btnStartServer"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_columnWeight="1"
-                android:text="Start Server"
-                android:background="@drawable/emergency_button"
-                android:textColor="#FFFFFF"
-                android:layout_margin="4dp" />
-
-            <Button
-                android:id="@+id/btnSendTestMessage"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_columnWeight="1"
-                android:text="Test Message"
-                android:background="@drawable/template_button"
-                android:layout_margin="4dp"
-                android:enabled="false" />
-
-        </GridLayout>
+        <TextView
+            android:id="@+id/tvConnectionStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MESH ACTIVE"
+            android:textSize="10sp"
+            android:textColor="#00C853"
+            android:background="@drawable/badge_green"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Local Node Card -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@drawable/card_dark"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:background="@drawable/sos_button_circle"
+                    android:gravity="center"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📱"
+                        android:textSize="28sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="You (Local Node)"
+                    android:textSize="16sp"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/llScanningProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:visibility="gone">
+
+                    <ProgressBar
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginEnd="6dp"
+                        android:indeterminateTint="#58A6FF" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SCANNING NEARBY DEVICES..."
+                        android:textSize="12sp"
+                        android:textColor="#58A6FF"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.05" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvBluetoothStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CHECKING BLUETOOTH..."
+                    android:textSize="12sp"
+                    android:textColor="#58A6FF"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.05" />
+
+            </LinearLayout>
+
+            <!-- Connected Nodes Header -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="CONNECTED NODES"
+                    android:textSize="12sp"
+                    android:textColor="#8B949E"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.08" />
+
+                <TextView
+                    android:id="@+id/tvConnectedDevicesCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="12sp"
+                    android:textColor="#8B949E" />
+
+            </LinearLayout>
+
+            <!-- Devices RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvDevices"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="80dp"
+                android:visibility="gone" />
+
+            <!-- No Devices Message -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvNoDevices"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="No devices discovered yet.\nMake sure Bluetooth is enabled on nearby devices."
+                    android:textSize="13sp"
+                    android:textColor="#8B949E"
+                    android:gravity="center"
+                    android:padding="24dp"
+                    android:background="@drawable/card_dark"
+                    android:layout_marginBottom="12dp" />
+
+            </LinearLayout>
+
+            <!-- Pro Tip Card -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/card_dark"
+                android:padding="14dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PROTIP:"
+                    android:textSize="11sp"
+                    android:textColor="#58A6FF"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="6dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Keep Bluetooth and Wi-Fi Direct ON to maintain connection stability. The mesh network grows stronger as more devices join."
+                    android:textSize="12sp"
+                    android:textColor="#8B949E"
+                    android:lineSpacingMultiplier="1.3" />
+
+            </LinearLayout>
+
+            <!-- Action Buttons -->
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2">
+
+                <Button
+                    android:id="@+id/btnScan"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_columnWeight="1"
+                    android:text="Scan"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/emergency_button"
+                    android:layout_margin="4dp" />
+
+                <Button
+                    android:id="@+id/btnMakeDiscoverable"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_columnWeight="1"
+                    android:text="Make Discoverable"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:background="@drawable/button_dark"
+                    android:layout_margin="4dp" />
+
+                <Button
+                    android:id="@+id/btnStartServer"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_columnWeight="1"
+                    android:text="Start Server"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/emergency_button"
+                    android:layout_margin="4dp" />
+
+                <Button
+                    android:id="@+id/btnRefresh"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_columnWeight="1"
+                    android:text="Refresh"
+                    android:textColor="#8B949E"
+                    android:background="@drawable/button_dark"
+                    android:layout_margin="4dp" />
+
+            </GridLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Bottom Navigation -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="@drawable/bottom_nav_bg"
+        android:paddingTop="8dp">
+
+        <LinearLayout
+            android:id="@+id/navHome"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="⊞" android:textSize="20sp" android:textColor="#8B949E" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="HOME" android:textSize="10sp" android:textColor="#8B949E" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/navInbox"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="✉" android:textSize="20sp" android:textColor="#8B949E" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="INBOX" android:textSize="10sp" android:textColor="#8B949E" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/navMesh"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="⛙" android:textSize="20sp" android:textColor="#58A6FF" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="MESH" android:textSize="10sp" android:textColor="#58A6FF" android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/navOn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="X" android:textSize="20sp" android:textColor="#00C853" android:textStyle="bold" android:background="@drawable/badge_green" android:paddingHorizontal="6dp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ON" android:textSize="10sp" android:textColor="#00C853" android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

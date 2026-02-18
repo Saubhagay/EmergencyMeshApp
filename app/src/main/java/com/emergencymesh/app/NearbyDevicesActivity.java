@@ -41,6 +41,7 @@ public class NearbyDevicesActivity extends AppCompatActivity {
 
     private TextView tvBluetoothStatus, tvNoDevices, tvConnectionStatus, tvConnectedDevicesCount;
     private LinearLayout llScanningProgress;
+    private LinearLayout navHome, navInbox, navMesh, navOn;
     private RecyclerView rvDevices;
     private Button btnScan, btnMakeDiscoverable, btnRefresh, btnStartServer;
 
@@ -112,6 +113,48 @@ public class NearbyDevicesActivity extends AppCompatActivity {
         btnMakeDiscoverable.setOnClickListener(v -> makeDiscoverable());
         btnRefresh.setOnClickListener(v -> refreshDevices());
         btnStartServer.setOnClickListener(v -> toggleServer());
+
+        navHome = findViewById(R.id.navHome);
+        navInbox = findViewById(R.id.navInbox);
+        navMesh = findViewById(R.id.navMesh);
+        navOn = findViewById(R.id.navOn);
+        setupNavigation();
+    }
+
+    private void setupNavigation() {
+        if (navHome != null) {
+            navHome.setOnClickListener(v -> {
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish();
+            });
+        }
+        if (navInbox != null) {
+            navInbox.setOnClickListener(v -> {
+                Intent intent = new Intent(this, MessageInboxActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish();
+            });
+        }
+        if (navMesh != null) {
+            navMesh.setOnClickListener(v ->
+                Toast.makeText(this, "You are on Mesh Network", Toast.LENGTH_SHORT).show());
+        }
+        if (navOn != null) {
+            navOn.setOnClickListener(v -> {
+                BluetoothMeshService svc = GlobalMeshService.getInstance(this).getMeshService();
+                if (svc != null) {
+                    List<String> devices = svc.getConnectedDevices();
+                    Toast.makeText(this,
+                            devices.isEmpty() ? "Mesh ON — No devices connected yet" : "Mesh ON — " + devices.size() + " device(s) connected",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Mesh service starting...", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     private void setupRecyclerView() {

@@ -1,163 +1,379 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#0D1117">
 
+    <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="#F5F5F5"
-        android:padding="16dp">
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:background="#0D1117"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:gravity="center_vertical">
 
-        <!-- Header -->
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_emergency_mesh"
+            android:layout_marginEnd="8dp" />
+
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Send Emergency Message"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:layout_marginBottom="16dp"
-            android:textColor="#FF5722" />
-
-        <!-- Connection Status -->
-        <TextView
-            android:id="@+id/tvConnectionStatus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Checking connections..."
-            android:textSize="14sp"
-            android:padding="12dp"
-            android:background="#E8F5E8"
-            android:layout_marginBottom="16dp"
-            android:gravity="center" />
-
-        <!-- Recipient -->
-        <TextView
-            android:id="@+id/tvRecipientLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Recipient Phone Number"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
-
-        <EditText
-            android:id="@+id/etRecipientPhone"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Enter phone number (optional for broadcast)"
-            android:inputType="phone"
-            android:background="@drawable/edit_text_background"
-            android:padding="12dp"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Message Type -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Message Type"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
-
-        <RadioGroup
-            android:id="@+id/rgMessageType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
-
-            <RadioButton
-                android:id="@+id/rbText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Text"
-                android:checked="true" />
-
-            <RadioButton
-                android:id="@+id/rbLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Location"
-                android:layout_marginStart="20dp" />
-
-            <RadioButton
-                android:id="@+id/rbAlert"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Alert"
-                android:layout_marginStart="20dp" />
-
-        </RadioGroup>
-
-        <!-- Message Content -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Emergency Message *"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
-
-        <EditText
-            android:id="@+id/etMessageContent"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:hint="Enter your emergency message..."
-            android:background="@drawable/edit_text_background"
-            android:padding="12dp"
-            android:gravity="top"
-            android:inputType="textMultiLine"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Quick Templates -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Quick Templates"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
-
-        <Button
-            android:id="@+id/btnTemplate1"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="I am safe"
-            android:textSize="14sp"
-            android:background="@drawable/template_button"
-            android:layout_marginBottom="4dp" />
-
-        <Button
-            android:id="@+id/btnTemplate2"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="Need immediate help"
-            android:textSize="14sp"
-            android:background="@drawable/template_button"
-            android:layout_marginBottom="4dp" />
-
-        <Button
-            android:id="@+id/btnTemplate3"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="Stuck in disaster area"
-            android:textSize="14sp"
-            android:background="@drawable/template_button"
-            android:layout_marginBottom="20dp" />
-
-        <!-- Send Button -->
-        <Button
-            android:id="@+id/btnSendMessage"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="SEND EMERGENCY MESSAGE"
+            android:layout_weight="1"
+            android:text="Emergency Mesh"
             android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RELAYING"
+            android:textSize="10sp"
+            android:textColor="#58A6FF"
+            android:background="@drawable/badge_blue"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
             android:textStyle="bold"
-            android:background="@drawable/emergency_button"
-            android:textColor="#FFFFFF" />
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MESH ACTIVE"
+            android:textSize="10sp"
+            android:textColor="#00C853"
+            android:background="@drawable/badge_green"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:textStyle="bold" />
 
     </LinearLayout>
-</ScrollView>
+
+    <!-- Scrollable Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Title Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginBottom="20dp">
+
+                <LinearLayout
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:background="@drawable/alert_button"
+                    android:gravity="center"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📢"
+                        android:textSize="28sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Emergency Broadcast"
+                    android:textSize="22sp"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Select a priority alert to send to all nearby devices."
+                    android:textSize="13sp"
+                    android:textColor="#8B949E"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+            <!-- Connection Status -->
+            <TextView
+                android:id="@+id/tvConnectionStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Checking connections..."
+                android:textSize="13sp"
+                android:textColor="#8B949E"
+                android:padding="12dp"
+                android:background="@drawable/card_dark"
+                android:layout_marginBottom="16dp"
+                android:gravity="center" />
+
+            <!-- Recipient Label -->
+            <TextView
+                android:id="@+id/tvRecipientLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recipient Phone (optional)"
+                android:textSize="12sp"
+                android:textColor="#8B949E"
+                android:layout_marginBottom="6dp" />
+
+            <!-- Recipient Phone Input -->
+            <EditText
+                android:id="@+id/etRecipientPhone"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Enter phone number (leave blank to broadcast)"
+                android:textColorHint="#484F58"
+                android:inputType="phone"
+                android:background="@drawable/edit_text_background"
+                android:padding="12dp"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Message Type Label -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Message Type"
+                android:textSize="12sp"
+                android:textColor="#8B949E"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Message Type Radio Group -->
+            <RadioGroup
+                android:id="@+id/rgMessageType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <RadioButton
+                    android:id="@+id/rbText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Text"
+                    android:textColor="#8B949E"
+                    android:buttonTint="#E53935"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:id="@+id/rbLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Location"
+                    android:textColor="#8B949E"
+                    android:buttonTint="#E53935"
+                    android:layout_marginLeft="20dp" />
+
+                <RadioButton
+                    android:id="@+id/rbAlert"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Alert"
+                    android:textColor="#8B949E"
+                    android:buttonTint="#E53935"
+                    android:layout_marginLeft="20dp" />
+
+            </RadioGroup>
+
+            <!-- Quick Templates Label -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quick Templates"
+                android:textSize="12sp"
+                android:textColor="#8B949E"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Template Buttons -->
+            <Button
+                android:id="@+id/btnTemplate1"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:text="I am safe."
+                android:textSize="15sp"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/card_dark"
+                android:gravity="center_vertical|start"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:layout_marginBottom="8dp" />
+
+            <Button
+                android:id="@+id/btnTemplate2"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:text="Need immediate help"
+                android:textSize="15sp"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/card_dark"
+                android:gravity="center_vertical|start"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:layout_marginBottom="8dp" />
+
+            <Button
+                android:id="@+id/btnTemplate3"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:text="Stuck in disaster area. Need rescue."
+                android:textSize="15sp"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/card_dark"
+                android:gravity="center_vertical|start"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Custom Message Label -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="OR TYPE CUSTOM MESSAGE:"
+                android:textSize="11sp"
+                android:textColor="#8B949E"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Message Content Input -->
+            <EditText
+                android:id="@+id/etMessageContent"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:hint="Type your emergency message here..."
+                android:textColorHint="#484F58"
+                android:background="@drawable/edit_text_background"
+                android:padding="12dp"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Send Button -->
+            <Button
+                android:id="@+id/btnSendMessage"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="SEND EMERGENCY MESSAGE"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:background="@drawable/emergency_button"
+                android:textColor="#FFFFFF" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Bottom Navigation -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="@drawable/bottom_nav_bg"
+        android:paddingTop="8dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⊞"
+                android:textSize="20sp"
+                android:textColor="#8B949E" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HOME"
+                android:textSize="10sp"
+                android:textColor="#8B949E" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="✉"
+                android:textSize="20sp"
+                android:textColor="#8B949E" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="INBOX"
+                android:textSize="10sp"
+                android:textColor="#8B949E" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⛙"
+                android:textSize="20sp"
+                android:textColor="#8B949E" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MESH"
+                android:textSize="10sp"
+                android:textColor="#8B949E" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="X"
+                android:textSize="20sp"
+                android:textColor="#00C853"
+                android:textStyle="bold"
+                android:background="@drawable/badge_green"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ON"
+                android:textSize="10sp"
+                android:textColor="#00C853"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

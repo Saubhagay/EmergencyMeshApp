@@ -4,13 +4,21 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="#FF5722">
+    android:background="#0D1117">
 
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:src="@drawable/ic_emergency_mesh"
-        android:layout_marginBottom="20dp" />
+    <LinearLayout
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/card_dark"
+        android:gravity="center"
+        android:layout_marginBottom="24dp">
+
+        <ImageView
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/ic_emergency_mesh" />
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
@@ -19,19 +27,20 @@
         android:textSize="28sp"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
+        android:fontFamily="sans-serif-medium"
         android:layout_marginBottom="8dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Offline Disaster Communication"
-        android:textSize="16sp"
-        android:textColor="#FFCCBC" />
+        android:textSize="14sp"
+        android:textColor="#8B949E"
+        android:layout_marginBottom="40dp" />
 
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:indeterminateTint="#FFFFFF" />
+        android:indeterminateTint="#E53935" />
 
 </LinearLayout>

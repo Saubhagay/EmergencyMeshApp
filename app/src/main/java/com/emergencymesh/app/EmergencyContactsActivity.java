@@ -27,6 +27,7 @@ public class EmergencyContactsActivity extends AppCompatActivity {
 
     private RecyclerView rvContacts;
     private LinearLayout llEmptyState;
+    private LinearLayout navHome, navInbox, navMesh, navOn;
     private Button btnAddContact, btnBroadcastToAll, btnImportContacts;
 
     private EmergencyContactAdapter adapter;
@@ -51,6 +52,10 @@ public class EmergencyContactsActivity extends AppCompatActivity {
         btnAddContact = findViewById(R.id.btnAddContact);
         btnBroadcastToAll = findViewById(R.id.btnBroadcastToAll);
         btnImportContacts = findViewById(R.id.btnImportContacts);
+        navHome = findViewById(R.id.navHome);
+        navInbox = findViewById(R.id.navInbox);
+        navMesh = findViewById(R.id.navMesh);
+        navOn = findViewById(R.id.navOn);
     }
 
     private void setupRecyclerView() {
@@ -80,6 +85,33 @@ public class EmergencyContactsActivity extends AppCompatActivity {
         btnAddContact.setOnClickListener(v -> showAddContactDialog());
         btnBroadcastToAll.setOnClickListener(v -> broadcastToAllContacts());
         btnImportContacts.setOnClickListener(v -> importContacts());
+
+        if (navHome != null) {
+            navHome.setOnClickListener(v -> {
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish();
+            });
+        }
+        if (navInbox != null) {
+            navInbox.setOnClickListener(v -> {
+                Intent intent = new Intent(this, MessageInboxActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish();
+            });
+        }
+        if (navMesh != null) {
+            navMesh.setOnClickListener(v -> {
+                startActivity(new Intent(this, NearbyDevicesActivity.class));
+                finish();
+            });
+        }
+        if (navOn != null) {
+            navOn.setOnClickListener(v ->
+                Toast.makeText(this, "Mesh is active", Toast.LENGTH_SHORT).show());
+        }
     }
 
     private void loadContacts() {
@@ -177,5 +209,11 @@ public class EmergencyContactsActivity extends AppCompatActivity {
     private void importContacts() {
         Toast.makeText(this, "Contact import feature coming soon!", Toast.LENGTH_SHORT).show();
         // TODO: Implement contact import from phone contacts
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadContacts(); // Refresh contact list whenever screen becomes visible
     }
 }

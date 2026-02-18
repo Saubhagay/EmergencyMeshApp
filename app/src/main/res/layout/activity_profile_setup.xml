@@ -1,137 +1,311 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#0D1117">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:background="#0D1117"
+        android:paddingHorizontal="16dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_emergency_mesh"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Emergency Mesh"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RELAYING"
+            android:textSize="10sp"
+            android:textColor="#58A6FF"
+            android:background="@drawable/badge_blue"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:textStyle="bold"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MESH ACTIVE"
+            android:textSize="10sp"
+            android:textColor="#00C853"
+            android:background="@drawable/badge_green"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#F5F5F5">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="16dp">
 
-            <TextView
+            <!-- Sub Header -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Emergency Profile Setup"
-                android:textSize="24sp"
-                android:textStyle="bold"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="← "
+                    android:textSize="18sp"
+                    android:textColor="#8B949E" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="User Profile"
+                    android:textSize="22sp"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnSaveProfile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:text="EDIT"
+                    android:textSize="12sp"
+                    android:textColor="#58A6FF"
+                    android:textStyle="bold"
+                    android:background="@drawable/badge_blue"
+                    android:paddingHorizontal="16dp" />
+
+            </LinearLayout>
+
+            <!-- Avatar Card -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:gravity="center"
-                android:layout_marginBottom="30dp"
-                android:textColor="#FF5722" />
+                android:background="@drawable/card_dark"
+                android:padding="24dp"
+                android:layout_marginBottom="16dp">
 
-            <!-- Name Input -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Full Name *"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                <LinearLayout
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/contact_circle"
+                    android:gravity="center"
+                    android:layout_marginBottom="12dp">
 
-            <EditText
-                android:id="@+id/etName"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:hint="Enter your full name"
-                android:background="@drawable/edit_text_background"
-                android:padding="12dp"
-                android:layout_marginBottom="16dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="👤"
+                        android:textSize="36sp" />
 
-            <!-- Phone Number -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Phone Number *"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                </LinearLayout>
 
-            <EditText
-                android:id="@+id/etPhone"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:hint="Enter phone number"
-                android:inputType="phone"
-                android:background="@drawable/edit_text_background"
-                android:padding="12dp"
-                android:layout_marginBottom="16dp" />
+                <EditText
+                    android:id="@+id/etName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Your Name"
+                    android:textColorHint="#484F58"
+                    android:textSize="18sp"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:background="@android:color/transparent"
+                    android:gravity="center" />
 
-            <!-- Emergency Contact -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Emergency Contact *"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                <EditText
+                    android:id="@+id/etPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Phone number"
+                    android:textColorHint="#484F58"
+                    android:inputType="phone"
+                    android:textSize="13sp"
+                    android:textColor="#58A6FF"
+                    android:background="@android:color/transparent"
+                    android:gravity="center" />
 
-            <EditText
-                android:id="@+id/etEmergencyContact"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:hint="Emergency contact number"
-                android:inputType="phone"
-                android:background="@drawable/edit_text_background"
-                android:padding="12dp"
-                android:layout_marginBottom="16dp" />
+            </LinearLayout>
 
-            <!-- Blood Group -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Blood Group (Optional)"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
-
-            <Spinner
-                android:id="@+id/spinnerBloodGroup"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/edit_text_background"
-                android:layout_marginBottom="16dp" />
-
-            <!-- NEW: Role Selection -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Your Role *"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
-
-            <Spinner
-                android:id="@+id/spinnerRole"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/edit_text_background"
-                android:layout_marginBottom="8dp" />
-
+            <!-- Identity & Health Card -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="• Emergency: Auto-sends alert when connected\n• Saviour: Ready to help others"
-                android:textSize="12sp"
-                android:textColor="#666666"
-                android:layout_marginBottom="30dp" />
-
-            <!-- Save Button -->
-            <Button
-                android:id="@+id/btnSaveProfile"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:text="Save Profile"
-                android:textSize="18sp"
+                android:text="IDENTITY &amp; HEALTH"
+                android:textSize="11sp"
+                android:textColor="#8B949E"
                 android:textStyle="bold"
-                android:background="@drawable/emergency_button"
-                android:textColor="#FFFFFF" />
+                android:letterSpacing="0.08"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/card_dark"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BLOOD GROUP"
+                    android:textSize="11sp"
+                    android:textColor="#8B949E"
+                    android:letterSpacing="0.05"
+                    android:layout_marginBottom="6dp" />
+
+                <Spinner
+                    android:id="@+id/spinnerBloodGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/edit_text_background"
+                    android:layout_marginBottom="16dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#30363D"
+                    android:layout_marginVertical="4dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="EMERGENCY CONTACT"
+                    android:textSize="11sp"
+                    android:textColor="#8B949E"
+                    android:letterSpacing="0.05"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginTop="8dp" />
+
+                <EditText
+                    android:id="@+id/etEmergencyContact"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="Emergency contact number"
+                    android:textColorHint="#484F58"
+                    android:inputType="phone"
+                    android:background="@drawable/edit_text_background"
+                    android:padding="12dp"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginBottom="16dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#30363D"
+                    android:layout_marginVertical="4dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="YOUR ROLE"
+                    android:textSize="11sp"
+                    android:textColor="#8B949E"
+                    android:letterSpacing="0.05"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginTop="8dp" />
+
+                <Spinner
+                    android:id="@+id/spinnerRole"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/edit_text_background"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="• Emergency: Auto-sends alert when connected\n• Saviour: Ready to help others"
+                    android:textSize="12sp"
+                    android:textColor="#8B949E"
+                    android:lineSpacingMultiplier="1.4" />
+
+            </LinearLayout>
+
+            <!-- Medical Info Note -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/card_dark"
+                android:padding="14dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ℹ"
+                    android:textSize="16sp"
+                    android:textColor="#58A6FF"
+                    android:layout_marginEnd="10dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="In an SOS event, your medical data (Blood Group, Conditions, Allergies) is attached to the emergency packet to assist first responders."
+                    android:textSize="12sp"
+                    android:textColor="#8B949E"
+                    android:lineSpacingMultiplier="1.3" />
+
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Bottom Navigation -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="@drawable/bottom_nav_bg"
+        android:paddingTop="8dp">
+
+        <LinearLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="⊞" android:textSize="20sp" android:textColor="#8B949E" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="HOME" android:textSize="10sp" android:textColor="#8B949E" />
+        </LinearLayout>
+        <LinearLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="✉" android:textSize="20sp" android:textColor="#8B949E" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="INBOX" android:textSize="10sp" android:textColor="#8B949E" />
+        </LinearLayout>
+        <LinearLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="⛙" android:textSize="20sp" android:textColor="#8B949E" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="MESH" android:textSize="10sp" android:textColor="#8B949E" />
+        </LinearLayout>
+        <LinearLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="👤" android:textSize="20sp" android:textColor="#58A6FF" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="PROFILE" android:textSize="10sp" android:textColor="#58A6FF" android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
